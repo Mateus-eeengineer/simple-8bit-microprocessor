@@ -6,7 +6,7 @@
 
 ## 📖 Sobre o Projeto
 
-Este repositório contém a implementação de um microprocessador simples de 8 bits, desenvolvido como projeto final para a disciplina de [Nome da Disciplina] na [Nome da sua Universidade] durante o [Seu Semestre, ex: 1º Semestre de 2024].
+Este repositório contém a implementação de um microprocessador simples de 8 bits, desenvolvido como projeto final para a disciplina de Circuitos Digitais II na UFMS durante o [Seu Semestre, ex: 1º Semestre de 2024].
 
 O objetivo do projeto foi projetar, implementar e simular um sistema computacional mínimo, composto por uma Unidade Lógica e Aritmética (ULA), uma Unidade de Memória e uma Unidade de Controle, capaz de executar um conjunto básico de instruções.
 
@@ -65,9 +65,3 @@ Para simular este projeto:
     do test.do
     ```
 5.  A janela de ondas (Wave) será aberta e a simulação será executada, mostrando o funcionamento do processador.
-
-## 👤 Autor
-
-- **Nome:** [Seu Nome Completo]
-- **GitHub:** [@SeuUsuario]
-- **LinkedIn:** [URL-do-seu-LinkedIn]
