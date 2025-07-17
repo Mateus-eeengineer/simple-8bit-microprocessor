@@ -6,7 +6,7 @@
 
 ## 📖 About The Project
 
-This repository contains the implementation of a simple 8-bit microprocessor, developed as the final project for the [Course Name] course at [Your University Name] during the [Your Semester, e.g., 1st Semester 2024].
+This repository contains the implementation of a simple 8-bit microprocessor, developed as the final project for the Digital Circuits II course at the Federal University of Mato Grosso do Sul.
 
 The project's goal was to design, implement, and simulate a minimal computing system, comprising an Arithmetic Logic Unit (ALU), a Memory Unit, and a Control Unit, capable of executing a basic set of instructions.
 
@@ -65,9 +65,3 @@ To simulate this project:
     do test.do
     ```
 5.  The Wave window will open, and the simulation will run, showing the processor's operation.
-
-## 👤 Author
-
-- **Name:** [Your Full Name]
-- **GitHub:** [@YourUsername]
-- **LinkedIn:** [URL-to-your-LinkedIn]
