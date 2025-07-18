@@ -56,13 +56,13 @@ The instructions are 8 bits long, divided into a 3-bit opcode and a 5-bit addres
 To simulate this project:
 1.  Clone the repository:
     ```bash
-    git clone [URL-to-your-repository]
+    git clone https://github.com/Mateus-electronics/simple-microprocessor.git
     ```
 2.  Open ModelSim.
 3.  In the ModelSim console, navigate to the project directory.
 4.  Execute the simulation script:
     ```tcl
-    do test.do
+    do microprocessor.do
     ```
 5.  The Wave window will open, and the simulation will run, showing the processor's operation.
 
