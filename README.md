@@ -65,3 +65,7 @@ To simulate this project:
     do test.do
     ```
 5.  The Wave window will open, and the simulation will run, showing the processor's operation.
+
+6.  ## A few words
+
+The project was enough for my exam, and I almost got 100% on this specific question. But, there's a fundamental mistake that I couldn't get rid of, for some reason, there's a problem with how the memory is working (or the register) that reads wrong values for some operations that I can't remember right now, the microprocessor by itself works accordingly to the instruction given. Feel free to play with my code and help me find the problem.
