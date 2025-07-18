@@ -1,5 +1,4 @@
--- Quartus II VHDL Template
--- Single port RAM with single read/write address 
+--UFMS 2025
 
 library ieee;
 use ieee.std_logic_1164.all;
