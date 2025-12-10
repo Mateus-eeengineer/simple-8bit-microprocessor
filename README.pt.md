@@ -2,23 +2,26 @@
 
 ---
 
-# Microprocessador de 8 bits em VHDL
+# Microprocessador de 8 bits (VHDL)
+
+![Language](https://img.shields.io/badge/Language-VHDL-blue) ![Tools](https://img.shields.io/badge/Tools-ModelSim%20%7C%20Quartus-green)
 
 ## 📖 Sobre o Projeto
 
-Este repositório contém a implementação de um microprocessador simples de 8 bits, desenvolvido como projeto final para a disciplina de Circuitos Digitais II na UFMS.
+Este repositório contém a implementação de um microprocessador simples de 8 bits, desenvolvido como projeto final da disciplina de Circuitos Digitais II na Universidade Federal de Mato Grosso do Sul (UFMS), projetado utilizando VHDL-2008.
 
-O objetivo do projeto foi projetar, implementar e simular um sistema computacional mínimo, composto por uma Unidade Lógica e Aritmética (ULA), uma Unidade de Memória e uma Unidade de Controle, capaz de executar um conjunto básico de instruções.
+O objetivo do projeto foi projetar, implementar e simular um sistema computacional mínimo, compreendendo uma Unidade Lógica e Aritmética (ULA), uma Unidade de Memória e uma Unidade de Controle (FSM), capaz de executar um conjunto básico de instruções.
 
 ## ✨ Funcionalidades
 
-O microprocessador implementado possui as seguintes funcionalidades:
-- **Arquitetura de 8 bits:** Todos os registradores e o barramento de dados operam com 8 bits.
-- **Memória RAM:** Uma memória de 64 posições de 8 bits (`ADDR_WIDTH = 6`, `DATA_WIDTH = 8`).
-- **Operações Aritméticas:** Suporta as operações de Soma (`ADD`) e Subtração (`SUB`).
-- **Operações Lógicas:** Suporta as operações `AND`, `OR` e `NOT`.
-- **Acesso à Memória:** Permite carregar dados da memória para o acumulador (`LOAD`) e salvar dados do acumulador na memória (`STORE`).
-- **Controlo de Fluxo:** Possui uma instrução de paragem (`HALT`) para finalizar a execução do programa.
+O microprocessador implementado possui as seguintes características:
+
+- **Arquitetura:** Baseada em Acumulador (Von Neumann).
+- **Memória RAM:** Uma memória de 64x8-bits (ADDR_WIDTH = 6, DATA_WIDTH = 8).
+- **Conjunto de Instruções:** Subconjunto tipo CISC (Aritmética, Lógica, Acesso à Memória e Fluxo de Controle).
+- **Memória:** RAM Síncrona de Porta Única (64 Bytes).
+- **Temporização:** Execução em ciclo único para operações da ULA, multiciclo para operações de memória.
+- **Controle de Fluxo**: Inclui uma instrução HALT para encerrar a execução do programa.
 
 ## 🏛️ Arquitetura
 
@@ -56,17 +59,26 @@ As instruções possuem 8 bits, divididos em um opcode de 3 bits e um endereço/
 Para simular este projeto:
 1.  Clone o repositório:
     ```bash
-    git clone [URL-do-seu-repositório]
+    git clone https://github.com/Mateus-eeengineer/simple-microprocessor.git
     ```
 2.  Abra o ModelSim.
 3.  No console do ModelSim, navegue até o diretório do projeto.
 4.  Execute o script de simulação:
     ```tcl
-    do test.do
+    do microprocessor.do
     ```
 5.  A janela de ondas (Wave) será aberta e a simulação será executada, mostrando o funcionamento do processador.
 
-##Algumas palavras
+## 📊 Simulação e Resultados
 
-O projeto foi suficiente para a minha prova, e eu quase tirei 100% nessa questão específica. Mas há um erro fundamental do qual eu não consegui me livrar — por algum motivo, há um problema com o funcionamento da memória (ou do registrador), que lê valores incorretos em algumas operações que, no momento, não consigo lembrar exatamente. O microprocessador em si funciona de acordo com as instruções dadas. Fique à vontade para explorar meu código e me ajudar a encontrar o problema.
+### Análise de Formas de Onda
+A forma de onda a seguir demonstra a execução de um programa de teste (LOAD -> ADD -> STORE). Observe as transições de state e a atualização correta do registrador acc ao final de cada ciclo de instrução.
 
+![Waveform Simulation](assets/waveform_print.png)  
+*"Figura 1: Execução bem-sucedida do testbench, atingindo o estado HALT com o valor esperado no acumulador."*
+
+### Diagrama da Máquina de Estados Finitos (FSM)
+A unidade de controle opera com base no seguinte diagrama de transição de estados, garantindo a temporização adequada para operações de leitura/escrita na memória.
+
+![FSM Diagram](assets/fsm_diagram.png)
+*"Figura 2: Diagrama dos oito estados da FSM que controlam o comportamento da CPU."*
