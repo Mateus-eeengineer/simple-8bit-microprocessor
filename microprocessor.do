@@ -1,4 +1,4 @@
---UFMS
+-- UFMS
 
 #You have to fill the two following lines with the vhdl adress and name
 vcom -work work 
@@ -8,10 +8,10 @@ vsim work.
 add wave -noupdate -divider "Controle"
 add wave clk reset state
 add wave -noupdate -divider "Registradores"
-add wave acc result contador
-add wave -noupdate -divider "MemÃ³ria"
+add wave acc result pc
+add wave -noupdate -divider "Memória"
 add wave ram_addr ram_data_out we_ram
-add wave -noupdate -divider "ConteÃºdo_MemÃ³ria"
+add wave -noupdate -divider "Conteúdo_Memória"
 add wave -radix hex {/microprocessor/RAM_INST/ram}
 add wave -noupdate -divider "ULA"
 add wave /microprocessor/ula_result /microprocessor/opcode /microprocessor/operand_reg
@@ -57,7 +57,7 @@ run 2000ps
 if {[examine state] != "S_HALT"} {
     echo "ERRO: Estado final = [examine state] (deveria ser S_HALT)"
 } else {
-    echo "SUCESSO: Estado HALT alcanÃ§ado"
+    echo "SUCESSO: Estado HALT alcançado"
 }
 
 if {[examine acc] != "11111111"} {

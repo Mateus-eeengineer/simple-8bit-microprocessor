@@ -5,7 +5,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 ---------------------------------------------------------------------------------
--- Entidade da Memoria RAM de porta única
+-- Entidade da memoria RAM de porta única
 ---------------------------------------------------------------------------------
 entity memoria is
 	generic 
@@ -57,7 +57,7 @@ entity microprocessor is
 end entity;
 
 architecture rtl of microprocessor is
-    -- Declaração do componente de memória
+    -- Declaração do componente de memóira
     component memoria
         generic ( DATA_WIDTH : integer := 8; ADDR_WIDTH : integer := 6 );
         port ( clk : in std_logic; addr : in natural range 0 to 2**ADDR_WIDTH - 1; data : in std_logic_vector((DATA_WIDTH-1) downto 0); we : in std_logic; q : out std_logic_vector((DATA_WIDTH-1) downto 0) );
@@ -68,19 +68,19 @@ architecture rtl of microprocessor is
     -- =======================================================================
     
     -- Registradores do Processador
-    signal contador     : natural range 0 to 63 := 0;  -- Contador de Programa (PC)
+    signal pc     : natural range 0 to 63 := 0;  -- pc de Programa (PC)
     signal acc          : std_logic_vector(7 downto 0) := (others => '0'); -- Acumulador (ACC)
-    signal ri           : std_logic_vector(7 downto 0) := (others => '0'); -- Registrador de Instrução (RI)
-    signal operand_reg  : std_logic_vector(7 downto 0) := (others => '0'); -- Guarda o operando vindo da memória
+    signal ir           : std_logic_vector(7 downto 0) := (others => '0'); -- Registrador de Instrução (ir)
+    signal operand_reg  : std_logic_vector(7 downto 0) := (others => '0'); -- Guarda o operando vindo da memóira
 
-    -- Sinais de comunicação com a Memória
+    -- Sinais de comunicação com a Memóira
     signal we_ram       : std_logic := '0';
     signal ram_addr     : natural range 0 to 63 := 0;
     signal ram_data_in  : std_logic_vector(7 downto 0) := (others => '0');
     signal ram_data_out : std_logic_vector(7 downto 0) := (others => '0');
     
     -- Sinais da Unidade de Controle
-    type state_type is (S_RESET, S_FETCH, S_FETCH_WAIT, S_DECODE, S_MEM_WAIT, S_EXECUTE, S_HALT);
+    type state_type is (S_RESET, S_FETCH, S_FETCH_WAIT, S_DECODE, S_MEM_WAIT, S_MEM_READ, S_EXECUTE, S_HALT);
     signal state    : state_type := S_RESET;
     signal opcode   : std_logic_vector(2 downto 0);
     signal addr_part: natural range 0 to 31;
@@ -99,7 +99,7 @@ architecture rtl of microprocessor is
     constant OP_HALT  : std_logic_vector(2 downto 0) := "111";
 
 begin
-    -- Instância da Memória RAM
+    -- Instância da Memóira RAM
     RAM_INST: memoria
         port map ( clk => clk, addr => ram_addr, data => ram_data_in, we => we_ram, q => ram_data_out );
 
@@ -108,10 +108,10 @@ begin
     -- =======================================================================
 
     -- Decodificador de Instrução
-    opcode    <= ri(7 downto 5);
-    addr_part <= to_integer(unsigned(ri(4 downto 0)));
+    opcode    <= ir(7 downto 5);
+    addr_part <= to_integer(unsigned(ir(4 downto 0)));
 
-    -- Unidade Lógica e Aritmética (ULA)
+    -- Unidade Lógica e Airtmética (ULA)
     ula_process: process(opcode, acc, operand_reg)
     begin
         case opcode is
@@ -128,35 +128,35 @@ begin
     result <= acc;
 
     -- =======================================================================
-    -- PROCESSO PRINCIPAL (UNIDADE DE CONTROLE E REGISTRADORES)
+    -- PROCESSO PirNCIPAL (UNIDADE DE CONTROLE E REGISTRADORES)
     -- =======================================================================
     main_process: process(clk)
     begin
         if rising_edge(clk) then
             if reset = '1' then
                 state     <= S_RESET;
-                contador  <= 0;
+                pc  <= 0;
                 acc       <= (others => '0');
                 we_ram    <= '0';
             else
-                we_ram <= '0'; -- Garante que a escrita seja desativada por padrão
+                we_ram <= '0'; -- Garante que a escirta seja desativada por padrão
 
                 case state is
                     when S_RESET =>
-                        contador <= 0;
+                        pc <= 0;
                         acc      <= (others => '0');
                         state    <= S_FETCH;
 						  when S_FETCH =>
-                        ram_addr <= contador;
+                        ram_addr <= pc;
                         state <= S_FETCH_WAIT; 
 
                     when S_FETCH_WAIT =>
-                        -- Apenas espera um ciclo para o dado da memória ficar pronto
+                        -- Apenas espera um ciclo para o dado da memóira ficar pronto
                         state <= S_DECODE;
 
                     when S_DECODE =>
-                        ri <= ram_data_out;
-                        contador <= contador + 1;
+                        ir <= ram_data_out;
+                        pc <= pc + 1;
                         
                         case ram_data_out(7 downto 5) is
                             when OP_LOAD | OP_ADD | OP_SUB | OP_AND | OP_OR =>
@@ -172,11 +172,14 @@ begin
                             when others => state <= S_HALT;
                         end case;
 
-                    when S_MEM_WAIT =>
+                    when S_MEM_WAIT =>                        
+                        state       <= S_MEM_READ;						  
+
+                    when S_MEM_READ =>
                         operand_reg <= ram_data_out;
                         state       <= S_EXECUTE;
-
-                    when S_EXECUTE =>
+								
+						  when S_EXECUTE =>
                         case opcode is
                             when OP_LOAD  => acc <= operand_reg;
                             when OP_STORE => ram_addr <= addr_part; ram_data_in <= acc; we_ram <= '1';
